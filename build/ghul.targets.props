@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <GhulCompiler>ghul-compiler</GhulCompiler>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ghul.runtime" Version="*" />
+  </ItemGroup>
+</Project>
