@@ -17,7 +17,7 @@
 
   <Target Name="CoreCompile">
     <PropertyGroup>
-      <CommandLine>ghul-compiler --v3 @(GhulSources -> '"%(fullpath)"', '%20') -o "$(IntermediateOutputPath)$(AssemblyName).dll" @(ReferencePathWithRefAssemblies -> '-a "%(fullpath)"', '%20')</CommandLine>
+      <CommandLine>ghul-compiler $(GhulOptions) --v3 @(GhulSources -> '"%(fullpath)"', '%20') -o "$(IntermediateOutputPath)$(AssemblyName).dll" @(ReferencePathWithRefAssemblies -> '-a "%(fullpath)"', '%20')</CommandLine>
  
     </PropertyGroup>
 
