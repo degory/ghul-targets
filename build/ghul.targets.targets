@@ -1,0 +1,30 @@
+<Project>
+  <Target Name="CreateManifestResourceNames" />
+
+  <Target Name="GenerateAssembliesJson" DependsOnTargets="FindReferenceAssembliesForReferences">
+    <ItemGroup>
+      <QuotedAssemblies Include="@(ReferencePathWithRefAssemblies)">
+        <Path>"$([MSBuild]::ValueOrDefault('%(FullPath)', '').Replace('\', '\\'))"</Path>
+      </QuotedAssemblies>
+    </ItemGroup>
+    <PropertyGroup>
+      <Assemblies>{"assemblies": [@(QuotedAssemblies -> '%(Path)', ',')]}</Assemblies>
+    </PropertyGroup>
+
+    <WriteLinesToFile File=".assemblies.json" Lines="$(Assemblies)" Overwrite="true" Encoding="Utf-8" />
+    <Message Importance="high" Text="Updated .assemblies.json with referenced assemblies" />
+  </Target>  
+
+  <Target Name="CoreCompile">
+    <PropertyGroup>
+      <CommandLine>ghul-compiler --v3 @(GhulSources -> '"%(fullpath)"', '%20') -o "$(IntermediateOutputPath)$(AssemblyName).dll" @(ReferencePathWithRefAssemblies -> '-a "%(fullpath)"', '%20')</CommandLine>
+ 
+    </PropertyGroup>
+
+    <Message Importance="high" Text="$(CommandLine)" />
+    <Exec Command="$(CommandLine)" />
+
+    <Copy SourceFiles="$(ProjectDir)$(IntermediateOutputPath)$(AssemblyName).dll" DestinationFolder="$(ProjectDir)$(IntermediateOutputPath)ref" />   
+  </Target>
+
+</Project>
