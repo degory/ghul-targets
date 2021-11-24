@@ -1,6 +1,8 @@
 <Project>
   <PropertyGroup>
     <GhulCompiler>ghul-compiler</GhulCompiler>
+    <DebugType>None</DebugType>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
 
   <ItemGroup>

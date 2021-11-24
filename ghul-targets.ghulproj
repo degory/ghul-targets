@@ -3,32 +3,26 @@
   <Import Project="build/ghul.targets.targets" />
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
 
     <Title>ghūl compiler build targets</Title>
     <PackageDescription>ghūl compiler build targets</PackageDescription>
+    <RepositoryUrl>https://github.com/degory/ghul-targets</RepositoryUrl>
     <PackageId>ghul.targets</PackageId>
     <Authors>degory</Authors>
     <Company>ghul.io</Company>
-    <Version>0.0.2-alpha.1</Version>
+    <Version>0.0.3-alpha.2</Version>
 
     <PackageOutputPath>./nupkg</PackageOutputPath>
-    <RepositoryUrl>https://github.com/degory/ghul-targets</RepositoryUrl>
-    <DebugType>None</DebugType>
-    <GhulCompiler>ghul-compiler</GhulCompiler>
-    <InvariantGlobalization>true</InvariantGlobalization>
 
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>  
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
 
   <ItemGroup>
     <GhulSources Include="src/**/*.ghul" />
 
-    <Content Include="lib\**\*.*">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="build\ghul.targets.targets">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
