@@ -1,9 +1,0 @@
-namespace Ghul.Targets is
-    // dummy code to satisfy MSBuild - it seems to be impossible to pack a NuGet package on .NET Core without at least 
-    // one built assembly (or not without replicating a ton of standard SDK targets sufficient to satisfy all the pack
-    // target's dependencies)
-
-    entry() static is
-        return;
-    si
-si
