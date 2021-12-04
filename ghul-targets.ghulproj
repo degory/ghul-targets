@@ -11,17 +11,18 @@
     <PackageId>ghul.targets</PackageId>
     <Authors>degory</Authors>
     <Company>ghul.io</Company>
-    <Version>0.0.3-alpha.2</Version>
+    <Version>0.0.4-alpha.11</Version>
 
     <PackageOutputPath>./nupkg</PackageOutputPath>
 
     <InvariantGlobalization>true</InvariantGlobalization>
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>  
     <IncludeBuildOutput>false</IncludeBuildOutput>
+    <CopyBuildOutputToOutputDirectory>false</CopyBuildOutputToOutputDirectory>
   </PropertyGroup>
 
   <ItemGroup>
-    <GhulSources Include="src/**/*.ghul" />
+    <PackageReference Remove="ghul.runtime" Version="*" />
 
     <Content Include="build\ghul.targets.targets">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -30,4 +31,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+  <Target Name="CoreCompile" />
 </Project>

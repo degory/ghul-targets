@@ -12,16 +12,61 @@
     </PropertyGroup>
 
     <WriteLinesToFile File=".assemblies.json" Lines="$(Assemblies)" Overwrite="true" Encoding="Utf-8" />
-    <Message Importance="high" Text="Updated .assemblies.json with referenced assemblies" />
+    <Message Importance="Low" Text="Updated .assemblies.json with referenced assemblies" />
   </Target>  
 
   <Target Name="CoreCompile">
+    <ItemGroup>
+      <VersionParameter Include="--version &quot;$(Version)&quot;" Condition="'$(Version)'!=''" />
+
+      <AssemblyInfo Include="System.Reflection.AssemblyInformationalVersionAttribute" Condition="'$(Version)'!=''">
+        <Parameter>$(Version)</Parameter>
+      </AssemblyInfo>
+      <AssemblyInfo Include="System.Reflection.AssemblyCompanyAttribute" Condition="'$(Company)' != ''">
+        <Parameter>$(Company)</Parameter>
+      </AssemblyInfo>
+      <AssemblyInfo Include="System.Reflection.AssemblyConfigurationAttribute" Condition="'$(Configuration)' != ''">
+        <Parameter>$(Configuration)</Parameter>
+      </AssemblyInfo>
+      <AssemblyInfo Include="System.Reflection.AssemblyCopyrightAttribute" Condition="'$(Copyright)' != ''">
+        <Parameter>$(Copyright)</Parameter>
+      </AssemblyInfo>
+      <AssemblyInfo Include="System.Reflection.AssemblyDescriptionAttribute" Condition="'$(Description)' != ''">
+        <Parameter>$(Description)</Parameter>
+      </AssemblyInfo>
+      <AssemblyInfo Include="System.Reflection.AssemblyFileVersionAttribute" Condition="'$(FileVersion)' != ''">
+        <Parameter>$(FileVersion)</Parameter>
+      </AssemblyInfo>
+      <AssemblyInfo Include="System.Reflection.AssemblyInformationalVersionAttribute" Condition="'$(InformationalVersion)' != ''">
+        <Parameter>$(InformationalVersion)</Parameter>
+      </AssemblyInfo>
+      <AssemblyInfo Include="System.Reflection.AssemblyProductAttribute" Condition="'$(Product)' != ''">
+        <Parameter>$(Product)</Parameter>
+      </AssemblyInfo>
+      <AssemblyInfo Include="System.Reflection.AssemblyTitleAttribute" Condition="'$(AssemblyTitle)' != ''">
+        <Parameter>$(AssemblyTitle)</Parameter>
+      </AssemblyInfo>
+      <AssemblyInfo Include="System.Reflection.AssemblyVersionAttribute" Condition="'$(AssemblyVersion)' != ''">
+        <Parameter>$(AssemblyVersion)</Parameter>
+      </AssemblyInfo>
+      <AssemblyInfo Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(RepositoryUrl)' != ''" >
+        <Parameter>RepositoryUrl</Parameter>
+        <!-- TODO: common target supports multiple parameters here -->
+      </AssemblyInfo>
+      <AssemblyInfo Include="System.Resources.NeutralResourcesLanguageAttribute" Condition="'$(NeutralLanguage)' != ''">
+        <Parameter>$(NeutralLanguage)</Parameter>
+      </AssemblyInfo>
+      <AssemblyInfo Include="System.Reflection.AssemblyCompanyAttribute" Condition="'$(Company)' != ''">
+        <Parameter>$(Company)</Parameter>
+      </AssemblyInfo>
+    </ItemGroup>
+
     <PropertyGroup>
-      <CommandLine>ghul-compiler $(GhulOptions) --v3 @(GhulSources -> '"%(fullpath)"', '%20') -o "$(IntermediateOutputPath)$(AssemblyName).dll" @(ReferencePathWithRefAssemblies -> '-a "%(fullpath)"', '%20')</CommandLine>
+      <CommandLine>ghul-compiler $(VersionParameter) $(GhulOptions) @(AssemblyInfo -> '--assembly-info-string "%(Identity)=%(Parameter)"', '%20') --v3 @(GhulSources -> '"%(fullpath)"', '%20') -o "$(IntermediateOutputPath)$(AssemblyName).dll" @(ReferencePathWithRefAssemblies -> '-a "%(fullpath)"', '%20')</CommandLine>
  
     </PropertyGroup>
-
-    <Message Importance="high" Text="$(CommandLine)" />
+    
+    <Message Importance="Low" Text="$(CommandLine)" />
     <Exec Command="$(CommandLine)" />
 
     <Copy SourceFiles="$(ProjectDir)$(IntermediateOutputPath)$(AssemblyName).dll" DestinationFolder="$(ProjectDir)$(IntermediateOutputPath)ref" />   
