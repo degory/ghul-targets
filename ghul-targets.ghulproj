@@ -1,7 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="build/ghul.targets.props" />
-  <Import Project="build/ghul.targets.targets" />
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
 
@@ -11,7 +8,7 @@
     <PackageId>ghul.targets</PackageId>
     <Authors>degory</Authors>
     <Company>ghul.io</Company>
-    <Version>0.0.5-alpha.1</Version>
+    <Version>0.0.6-alpha.32</Version>
 
     <PackageOutputPath>./nupkg</PackageOutputPath>
 
@@ -22,15 +19,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Remove="ghul.runtime" Version="*" />
-
-    <Content Include="build\ghul.targets.targets">
+    <Content Include="build\ghul.targets.targets" PackagePath="\build">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="build\ghul.targets.props">
+    <Content Include="build\ghul.targets.props" PackagePath="\build">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <Target Name="CoreCompile" />
+  <Target Name="CreateManifestResourceNames" />
 </Project>

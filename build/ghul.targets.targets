@@ -17,8 +17,6 @@
 
   <Target Name="CoreCompile">
     <ItemGroup>
-      <VersionParameter Include="--version &quot;$(Version)&quot;" Condition="'$(Version)'!=''" />
-
       <AssemblyInfo Include="System.Reflection.AssemblyInformationalVersionAttribute" Condition="'$(Version)'!=''">
         <Parameter>$(Version)</Parameter>
       </AssemblyInfo>
@@ -50,7 +48,7 @@
         <Parameter>$(AssemblyVersion)</Parameter>
       </AssemblyInfo>
       <AssemblyInfo Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(RepositoryUrl)' != ''" >
-        <Parameter>RepositoryUrl</Parameter>
+        <Parameter>$(RepositoryUrl)</Parameter>
         <!-- TODO: common target supports multiple parameters here -->
       </AssemblyInfo>
       <AssemblyInfo Include="System.Resources.NeutralResourcesLanguageAttribute" Condition="'$(NeutralLanguage)' != ''">
@@ -62,8 +60,9 @@
     </ItemGroup>
 
     <PropertyGroup>
+      <VersionParameter Condition="'$(Version)'!=''">--version "$(Version)"</VersionParameter>
+      <GhulCompiler Condition="'$GhulCompiler'==''">ghul-compiler</GhulCompiler>
       <CommandLine>$(GhulCompiler) $(VersionParameter) $(GhulOptions) @(AssemblyInfo -> '--assembly-info-string "%(Identity)=%(Parameter)"', '%20') --v3 @(GhulSources -> '"%(fullpath)"', '%20') -o "$(IntermediateOutputPath)$(AssemblyName).dll" @(ReferencePathWithRefAssemblies -> '-a "%(fullpath)"', '%20')</CommandLine>
- 
     </PropertyGroup>
     
     <Message Importance="Low" Text="$(CommandLine)" />
