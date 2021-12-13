@@ -49,7 +49,6 @@ jobs:
       run: dotnet pack -p:Version=${{ needs.version.outputs.package }}
 
     - name: Upload package artefact
-      if: ${{ github.event_name != 'push' }}
       uses: actions/upload-artifact@v2
       with:
         name: package
