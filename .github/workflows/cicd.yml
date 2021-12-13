@@ -20,15 +20,15 @@ jobs:
     runs-on: ubuntu-20.04
     timeout-minutes: 1
     outputs:
-      tag: ${{ steps.pick_version.outputs.tag }}
-      package: ${{ steps.pick_version.outputs.package }}
+      tag: ${{ steps.create_version.outputs.tag }}
+      package: ${{ steps.create_version.outputs.package }}
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Pick version
-      id: bump_version
-      uses: degory/bump-version-action@v0.0.5 
+    - name: Create version
+      id: create_version
+      uses: degory/create-version@v0.0.1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         
