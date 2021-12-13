@@ -1,0 +1,4 @@
+// This is a very simple ghul application: it simply writes some text to the console     
+entry() =>
+    IO.Std.out.write_line("Hello world!");
+
