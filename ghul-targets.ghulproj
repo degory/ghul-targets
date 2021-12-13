@@ -4,11 +4,18 @@
 
     <Title>ghūl compiler build targets</Title>
     <PackageDescription>ghūl compiler build targets</PackageDescription>
+    <PackageTags>ghul;ghūl;compiler;msbuild;targets</PackageTags>
+    <PackageProjectUrl>https://github.com/degory/ghul-targets</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/degory/ghul-targets</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryBranch>main</RepositoryBranch>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>    
+
     <PackageId>ghul.targets</PackageId>
     <Authors>degory</Authors>
     <Company>ghul.io</Company>
-    <Version>0.0.6-alpha.32</Version>
 
     <PackageOutputPath>./nupkg</PackageOutputPath>
 
@@ -19,6 +26,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>  
+    <None Include="LICENSE*" Pack="true" PackagePath="\" />
+
     <Content Include="build\ghul.targets.targets" PackagePath="\build">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
