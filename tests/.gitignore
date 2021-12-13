@@ -1,0 +1,19 @@
+# project specific
+*.vsix
+
+.build.rsp
+
+**/obj/
+**/bin/
+**/nupkg/
+
+.assemblies.json
+*.runtimeconfig.json
+*.exe
+*.dll
+*.pdb
+*.mdb
+**/out.txt
+**/output.txt
+
+**/out.il
