@@ -60,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     container: ghul/devcontainer:dotnet
     timeout-minutes: 10
-    needs: [version]
+    needs: [version,build]
 
     steps:
     - uses: actions/checkout@v2
@@ -100,7 +100,7 @@ jobs:
     runs-on: ubuntu-latest
     container: ghul/devcontainer:dotnet
     timeout-minutes: 10
-    needs: [version, test]
+    needs: [version,build,test]
 
     steps:
     - uses: actions/checkout@v2
