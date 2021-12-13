@@ -75,7 +75,7 @@ jobs:
       run: dotnet tool restore
 
     - name: Set version
-      run: dotnet set-version ${{ needs.version.outputs.package }} Directory.Build.props
+      run: dotnet setversion ${{ needs.version.outputs.package }} Directory.Build.props
 
     - name: Build test project
       run: dotnet build
