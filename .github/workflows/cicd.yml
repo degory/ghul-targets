@@ -1,4 +1,4 @@
-name: CI/CD
+name: CICD
 
 on:
   workflow_dispatch:
@@ -20,54 +20,20 @@ jobs:
     runs-on: ubuntu-20.04
     timeout-minutes: 1
     outputs:
-      tag: ${{ steps.pick_version.outputs.tag }}
-      package: ${{ steps.pick_version.outputs.package }}
+      tag: ${{ steps.create_version.outputs.tag }}
+      package: ${{ steps.create_version.outputs.package }}
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Create version number
-      id: create_version_number
-      uses: anothrNick/github-tag-action@1.33.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WITH_V: true
-        DEFAULT_BUMP: patch
-        RELEASE_BRANCHES: main,master
-
-    - name: Pick version
-      id: pick_version
-      run: |
-        VALID_VERSION_REGEX="^v[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9]+\.[0-9]+)?$"
-        if [ ! -z "${MANUAL_VERSION}" ] ; then
-          echo "User supplied version: ${MANUAL_VERSION}"
-          VERSION="${MANUAL_VERSION}"
-        elif [ ! -z "${TAG_VERSION}" ] ; then
-          echo "Tag bump generated version: ${TAG_VERSION}"
-          VERSION="${TAG_VERSION}"
-        else
-          echo "Neither manual or tag version set"
-          exit 1
-        fi
-        if [[ ${VERSION} =~ ${VALID_VERSION_REGEX} ]] && [ "${VERSION}" != "v0.0.0" ] ; then
-          echo "Version number is valid: ${VERSION}"
-          echo "::set-output name=tag::${VERSION}"
-          echo "::set-output name=package::${VERSION:1}"
-        else
-          echo "Version number is not valid ${VERSION}"
-          exit 1
-        fi
-      env:
-        TAG_VERSION: ${{ steps.create_version_number.outputs.new_tag }}
-        MANUAL_VERSION: ${{ github.event.inputs.version }}        
-
-    - name: Echo version numbers
-      run: |
-        echo "tag version: ${{ steps.pick_version.outputs.tag }}"
-        echo "package version: ${{ steps.pick_version.outputs.package }}"
+    - name: Create version
+      id: create_version
+      uses: degory/create-version@v0.0.1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
         
   build:
-    name: Build and publish NuGet package
+    name: Build package
     runs-on: ubuntu-latest
     container: ghul/devcontainer:dotnet
     timeout-minutes: 10
@@ -75,13 +41,74 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-                  
+
+    - name: Restore local .NET tools
+      run: dotnet tool restore
+
     - name: Create package
       run: dotnet pack -p:Version=${{ needs.version.outputs.package }}
 
     - name: Upload package artefact
       if: ${{ github.event_name != 'push' }}
       uses: actions/upload-artifact@v2
+      with:
+        name: package
+        path: nupkg
+
+  test:
+    name: Test package
+    runs-on: ubuntu-latest
+    container: ghul/devcontainer:dotnet
+    timeout-minutes: 10
+    needs: [version,build]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download package
+      uses: actions/download-artifact@v2
+      with:
+        name: package
+        path: nupkg
+
+    - name: Restore local .NET tools
+      run: dotnet tool restore
+
+    - name: Set version
+      run: dotnet setversion ${{ needs.version.outputs.package }} Directory.Build.props
+
+    - name: Build test project
+      run: dotnet build
+      working-directory: tests
+
+    - name: Run test project
+      id: run
+      run: |
+        STDOUT=$(dotnet run)
+        echo "::set-output name=stdout::${STDOUT}"
+      working-directory: tests
+
+    - name: Check test output
+      run: |
+        if [ "${STDOUT}" != "Hello world!" ] ; then
+          exit 1
+        fi
+      working-directory: tests
+      env:
+        STDOUT: ${{ steps.run.outputs.stdout }}
+
+  publish-package:
+    name: Build and publish NuGet package
+    runs-on: ubuntu-latest
+    container: ghul/devcontainer:dotnet
+    timeout-minutes: 10
+    needs: [version,build,test]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download package
+      uses: actions/download-artifact@v2
       with:
         name: package
         path: nupkg
@@ -97,3 +124,43 @@ jobs:
       env:
         NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
 
+  create_release:
+    needs: [version, publish-package]
+    name: Create release
+    runs-on: ubuntu-20.04
+
+    timeout-minutes: 5
+    if: ${{ github.event_name == 'push' }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download package
+      uses: actions/download-artifact@v2
+      with:
+        name: package
+        path: nupkg
+
+    - name: Create changelog
+      run: git log -1 --format="%s%n%n%b%n%n" >changelog.txt
+
+    - name: Create a Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ needs.version.outputs.tag }}
+        release_name: ${{ needs.version.outputs.tag }}
+        body_path: changelog.txt
+        draft: false
+
+    - name: Upload package asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./nupkg/ghul.targets.${{ needs.version.outputs.package }}.nupkg
+        asset_name: ghul.targets.${{ needs.version.outputs.package }}.nupkg
+        asset_content_type: application/octet-stream
