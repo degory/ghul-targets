@@ -89,7 +89,7 @@ jobs:
 
     - name: Check test output
       run: |
-        if [ "${STDOUT}" != "Hello world!" ] ; then
+        if [ "${STDOUT}" != "Hello ghūl world!" ] ; then
           exit 1
         fi
       working-directory: tests

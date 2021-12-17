@@ -62,7 +62,7 @@
     <PropertyGroup>
       <VersionParameter Condition="'$(Version)'!=''">--version "$(Version)"</VersionParameter>
       <GhulCompiler Condition="'$(GhulCompiler)'==''">dotnet ghul-compiler</GhulCompiler>
-      <CommandLine>$(GhulCompiler) $(VersionParameter) $(GhulOptions) @(AssemblyInfo -> '--assembly-info-string "%(Identity)=%(Parameter)"', '%20') --v3 @(GhulSources -> '"%(fullpath)"', '%20') -o "$(IntermediateOutputPath)$(AssemblyName).dll" @(ReferencePathWithRefAssemblies -> '-a "%(fullpath)"', '%20')</CommandLine>
+      <CommandLine>$(GhulCompiler) $(VersionParameter) $(GhulOptions) @(GhulOptions -> '%(Identity)', ' ') @(AssemblyInfo -> '--assembly-info-string "%(Identity)=%(Parameter)"', '%20') --v3 @(GhulSources -> '"%(fullpath)"', '%20') -o "$(IntermediateOutputPath)$(AssemblyName).dll" @(ReferencePathWithRefAssemblies -> '-a "%(fullpath)"', '%20')</CommandLine>
     </PropertyGroup>
     
     <Message Importance="Low" Text="$(CommandLine)" />
