@@ -32,7 +32,7 @@ This is a minimal example `.ghulproj` (ghūl project file) using the targets fro
     <PackageReference Include="ghul.pipes" Version="0.0.17" />
 
     <!-- this package, to get the standard ghūl MSBuild targets: -->
-    <PackageReference Include="ghul.targets" Version="0.0.8" />
+    <PackageReference Include="ghul.targets" Version="1.0.0" />
   </ItemGroup>
 </Project>
 
