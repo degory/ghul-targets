@@ -22,6 +22,7 @@ This is a minimal example `.ghulproj` (ghūl project file) using the targets fro
   </PropertyGroup>
 
   <ItemGroup>    
+    <GhulCompiler>dotnet ghul-compiler</GhulCompiler>
     <GhulSources Include="**/*.ghul" /> <!-- build all files with a .ghul extension: -->
     
     <PackageReference Include="ghul.runtime" Version="1.0.0" /> <!-- ghūl runtime library -->
