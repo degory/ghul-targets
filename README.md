@@ -21,18 +21,13 @@ This is a minimal example `.ghulproj` (ghūl project file) using the targets fro
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <!-- build all files with a .ghul extension: -->
-    <GhulSources Include="**/*.ghul" />
-
-    <!-- the ghūl runtime package: -->
-    <PackageReference Include="ghul.runtime" Version="0.0.10" />
-
-    <!-- the ghūl pipes package, for the pipe operator, filter, map reduce etc.: -->
-    <PackageReference Include="ghul.pipes" Version="0.0.17" />
-
-    <!-- this package, to get the standard ghūl MSBuild targets: -->
-    <PackageReference Include="ghul.targets" Version="0.0.8" />
+  <ItemGroup>    
+    <GhulCompiler>dotnet ghul-compiler</GhulCompiler>
+    <GhulSources Include="**/*.ghul" /> <!-- build all files with a .ghul extension: -->
+    
+    <PackageReference Include="ghul.runtime" Version="1.0.0" /> <!-- ghūl runtime library -->
+    <PackageReference Include="ghul.pipes" Version="1.0.0" /> <!-- ghūl pipes provides the pipe operator, filter, map reduce etc. -->
+    <PackageReference Include="ghul.targets" Version="1.0.1" /> <!-- this package provides ghūl MSBuild targets: -->
   </ItemGroup>
 </Project>
 
