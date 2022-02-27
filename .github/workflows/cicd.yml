@@ -35,7 +35,9 @@ jobs:
   build:
     name: Build package
     runs-on: ubuntu-latest
-    container: ghul/devcontainer:dotnet
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:6.0-focal
+
     timeout-minutes: 10
     needs: [version]
 
@@ -57,7 +59,9 @@ jobs:
   test:
     name: Test package
     runs-on: ubuntu-latest
-    container: ghul/devcontainer:dotnet
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:6.0-focal
+
     timeout-minutes: 10
     needs: [version,build]
 
@@ -99,7 +103,9 @@ jobs:
   publish-package:
     name: Build and publish NuGet package
     runs-on: ubuntu-latest
-    container: ghul/devcontainer:dotnet
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:6.0-focal
+      
     timeout-minutes: 10
     needs: [version,build,test]
 
