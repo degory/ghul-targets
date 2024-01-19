@@ -84,9 +84,6 @@ jobs:
     - name: Restore local .NET tools
       run: dotnet tool restore
 
-    - name: Set version
-      run: dotnet setversion ${{ needs.version.outputs.package }} Directory.Build.props
-
     - name: Build test project
       run: dotnet build
       working-directory: tests
