@@ -6,9 +6,9 @@
 [![Release Date](https://img.shields.io/github/release-date/degory/ghul-targets)](https://github.com/degory/ghul-targets/releases)
 [![Issues](https://img.shields.io/github/issues/degory/ghul-targets)](https://github.com/degory/ghul-targets/issues) 
 [![License](https://img.shields.io/github/license/degory/ghul-targets)](https://github.com/degory/ghul-targets/blob/main/LICENSE)
-[![ghūl](https://img.shields.io/badge/gh%C5%ABl-100%25!-information)](https://ghul.io)
+[![ghūl](https://img.shields.io/badge/gh%C5%ABl-100%25!-information)](https://ghul.dev)
 
-This package provides MSBuild targets needed to build [ghūl language](https://ghul.io) projects.
+This package provides MSBuild targets needed to build [ghūl language](https://ghul.dev) projects.
 The targets work with the standard .NET SDK targets 
 by overriding the `CoreCompile` target to call the [ghūl compiler](https://github.com/degory/ghul)
 
@@ -18,7 +18,7 @@ This is a minimal example `.ghulproj` (ghūl project file) using the targets fro
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>    
@@ -27,7 +27,7 @@ This is a minimal example `.ghulproj` (ghūl project file) using the targets fro
     
     <PackageReference Include="ghul.runtime" Version="1.0.0" /> <!-- ghūl runtime library -->
     <PackageReference Include="ghul.pipes" Version="1.0.0" /> <!-- ghūl pipes provides the pipe operator, filter, map reduce etc. -->
-    <PackageReference Include="ghul.targets" Version="1.0.1" /> <!-- this package provides ghūl MSBuild targets: -->
+    <PackageReference Include="ghul.targets" Version="1.3.0" /> <!-- this package provides ghūl MSBuild targets: -->
   </ItemGroup>
 </Project>
 
