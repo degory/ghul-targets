@@ -15,7 +15,7 @@ env:
   CI: true
 
 jobs:
- version:
+  version:
     name: Create a version number
     runs-on: ubuntu-latest
     timeout-minutes: 1
