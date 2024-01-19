@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 
     <Title>ghūl compiler build targets</Title>
     <PackageDescription>ghūl compiler build targets</PackageDescription>
@@ -15,7 +15,7 @@
 
     <PackageId>ghul.targets</PackageId>
     <Authors>degory</Authors>
-    <Company>ghul.io</Company>
+    <Company>ghul.dev</Company>
 
     <PackageOutputPath>./nupkg</PackageOutputPath>
 

@@ -17,26 +17,33 @@ env:
 jobs:
   version:
     name: Create a version number
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     timeout-minutes: 1
     outputs:
       tag: ${{ steps.create_version.outputs.tag }}
       package: ${{ steps.create_version.outputs.package }}
+      
+    permissions:
+      contents: 'write'
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: '0'    
 
     - name: Create version
       id: create_version
-      uses: degory/create-version@v0.0.1
+      uses: degory/create-version@v0.0.2
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        
+      env:
+        PRERELEASE: ${{ github.event_name == 'pull_request' }}
+
   build:
     name: Build package
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/dotnet/sdk:6.0-focal
+      image: mcr.microsoft.com/dotnet/sdk:8.0-jammy
 
     timeout-minutes: 10
     needs: [version]
@@ -60,7 +67,7 @@ jobs:
     name: Test package
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/dotnet/sdk:6.0-focal
+      image: mcr.microsoft.com/dotnet/sdk:8.0-jammy
 
     timeout-minutes: 10
     needs: [version,build]
@@ -104,7 +111,7 @@ jobs:
     name: Publish NuGet package
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/dotnet/sdk:6.0-focal
+      image: mcr.microsoft.com/dotnet/sdk:8.0-jammy
 
     timeout-minutes: 10
     needs: [version,build,test]
