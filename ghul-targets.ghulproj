@@ -15,7 +15,7 @@
 
     <PackageId>ghul.targets</PackageId>
     <Authors>degory</Authors>
-    <Company>ghul.io</Company>
+    <Company>ghul.dev</Company>
 
     <PackageOutputPath>./nupkg</PackageOutputPath>
 

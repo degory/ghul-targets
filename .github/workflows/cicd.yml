@@ -17,11 +17,14 @@ env:
 jobs:
   version:
     name: Create a version number
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     timeout-minutes: 1
     outputs:
       tag: ${{ steps.create_version.outputs.tag }}
       package: ${{ steps.create_version.outputs.package }}
+      
+    permissions:
+      contents: 'write'
 
     steps:
     - uses: actions/checkout@v3
@@ -34,7 +37,7 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
       env:
-        PRERELEASE: ${{ github.event_name == 'pull_request' }}        
+        PRERELEASE: ${{ github.event_name == 'pull_request' }}
 
   build:
     name: Build package

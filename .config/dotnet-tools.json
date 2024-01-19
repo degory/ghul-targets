@@ -3,13 +3,13 @@
   "isRoot": true,
   "tools": {
     "dotnet-setversion": {
-      "version": "2.4.0",
+      "version": "3.0.0",
       "commands": [
         "setversion"
       ]
     },
     "ghul.compiler": {
-      "version": "0.6.0",
+      "version": "0.6.5",
       "commands": [
         "ghul-compiler"
       ]
