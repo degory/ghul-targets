@@ -36,7 +36,7 @@ jobs:
     name: Build package
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/dotnet/sdk:6.0-focal
+      image: mcr.microsoft.com/dotnet/sdk:8.0-jammy
 
     timeout-minutes: 10
     needs: [version]
@@ -60,7 +60,7 @@ jobs:
     name: Test package
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/dotnet/sdk:6.0-focal
+      image: mcr.microsoft.com/dotnet/sdk:8.0-jammy
 
     timeout-minutes: 10
     needs: [version,build]
@@ -104,7 +104,7 @@ jobs:
     name: Publish NuGet package
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/dotnet/sdk:6.0-focal
+      image: mcr.microsoft.com/dotnet/sdk:8.0-jammy
 
     timeout-minutes: 10
     needs: [version,build,test]
