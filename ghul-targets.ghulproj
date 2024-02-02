@@ -23,11 +23,15 @@
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>  
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <CopyBuildOutputToOutputDirectory>false</CopyBuildOutputToOutputDirectory>
+
+    <PackageIcon>ghul-logo-icon.png</PackageIcon>
+    <PackageIconUrl>ghul-logo-icon.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\"/>  
     <None Include="LICENSE*" Pack="true" PackagePath="\" />
+    <None Include="./images/ghul-logo-icon.png" Pack="true" PackagePath=""/>
 
     <Content Include="build\ghul.targets.targets" PackagePath="\build">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
