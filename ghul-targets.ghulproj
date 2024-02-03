@@ -5,7 +5,7 @@
     <Title>ghūl compiler build targets</Title>
     <PackageDescription>ghūl compiler build targets</PackageDescription>
     <PackageTags>ghul;ghūl;compiler;msbuild;targets</PackageTags>
-    <PackageProjectUrl>https://github.com/degory/ghul-targets</PackageProjectUrl>
+    <PackageProjectUrl>https://ghul.dev</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/degory/ghul-targets</RepositoryUrl>
